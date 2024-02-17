@@ -2,9 +2,10 @@ const crypto = require("crypto");
 
 const { Readable, Writable, Transform } = require("stream");
 
+//chunk.toString() => usamos porque vem como um buffer
 const input = new Readable({
   read() {
-    for (let i = 0; i < 10000; i++) {
+    for (let i = 0; i < 1000000; i++) {
       this.push(crypto.randomUUID());
     }
     this.push(null);
@@ -31,3 +32,8 @@ const output = new Writable({
 });
 
 input.pipe(toUpperCase).pipe(addHello).pipe(output);
+
+// pipe(): Este método é usado para conectar streams, criando um pipeline de processamento.
+// Aqui, o stream input é conectado ao toUpperCase, que por sua vez é conectado ao addHello,
+//     e finalmente ao output.Isso permite que os dados fluam através de cada transformação em sequência,
+//         desde a geração dos UUIDs até a exibição dos dados transformados no console
